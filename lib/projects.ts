@@ -2,6 +2,9 @@ export type Project = {
   slug: string; title: string; role: string[];
   summary: string; challenges: string[]; metrics: { label: string; value: string }[];
   cover?: string;
+  githubUrl?: string;
+  updatedAt?: string;
+  topics?: string[];
 };
 export const PROJECTS: Project[] = [
   {
@@ -51,3 +54,17 @@ export const PROJECTS: Project[] = [
   }
 ];
 export const getProject = (slug: string) => PROJECTS.find(p => p.slug === slug);
+
+// 获取GitHub仓库数据的函数
+export async function getGitHubProjects(): Promise<Project[]> {
+  try {
+    const response = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL || 'http://localhost:3000'}/api/github/repos`, {
+      next: { revalidate: 3600 }
+    });
+    if (!response.ok) throw new Error('Failed to fetch GitHub projects');
+    return await response.json();
+  } catch (error) {
+    console.error('Error fetching GitHub projects:', error);
+    return [];
+  }
+}

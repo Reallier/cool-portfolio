@@ -3,18 +3,38 @@ import Link from "next/link";
 import ProjCard from "@/components/ProjCard";
 import Section from "@/components/Section";
 import MagneticButton from "@/components/ui/MagneticButton";
+import SkillMarquee from "@/components/ui/SkillMarquee";
+import ProjectMarquee from "@/components/ui/ProjectMarquee";
+import { PROJECTS, getGitHubProjects } from "@/lib/projects";
 
 const ThreeHero = dynamic(() => import("./ThreeHero"), { ssr: false });
 
-const PROJECTS = [
-  { slug: "trading-automation", title: "交易模块自动化测试平台", desc: "Flask+Vue前后端分离，Jenkins CI/CD，Asyncio优化", stack: ["Python","Flask","Vue","Jenkins","Asyncio"] },
-  { slug: "league-data-generator", title: "联赛数据源下发模块", desc: "多进程并行生成随机比赛数据，动态驱动测试", stack: ["Python","Multiprocessing","Pytest","Allure"] },
-  { slug: "ie-proposal-system", title: "IE提案系统", desc: "基于Royi框架的改进措施管理系统", stack: ["Python","Django","PostgreSQL"] },
-  { slug: "real-time-dashboard", title: "实时生产线可视化平台", desc: "GoView+Echarts实时监控运营指标", stack: ["Go","Echarts","WebSocket"] },
-  { slug: "game-server-operator", title: "Kubernetes游戏服务器调度器", desc: "K8S Operator管理有状态游戏工作负载", stack: ["Kubernetes","Go","Operator"] },
+// 所有技能列表
+const ALL_SKILLS = [
+  "Python", "Django", "Flask", "FastAPI", "Asyncio", "Golang", "Java", "Node.js",
+  "MySQL", "PostgreSQL", "MongoDB", "Redis", "RabbitMQ", "Kafka",
+  "Docker", "Kubernetes", "Jenkins", "GitLab CI", "Nginx", "Terraform",
+  "React", "Vue.js", "TypeScript", "Three.js", "Echarts", "WebSocket",
+  "Pytest", "Selenium", "OWASP ZAP", "Allure", "Jira", "Postman",
+  "Linux", "Ansible", "Prometheus", "Grafana", "Packer", "Flatpak"
 ];
 
-export default function Page() {
+export default async function Page() {
+  const [staticProjects, githubProjects] = await Promise.all([
+    Promise.resolve(PROJECTS),
+    getGitHubProjects()
+  ]);
+
+  // 合并项目并按更新时间排序，GitHub项目优先显示最新的
+  const allProjects = [...staticProjects, ...githubProjects].sort((a, b) => {
+    if (a.updatedAt && b.updatedAt) {
+      return new Date(b.updatedAt).getTime() - new Date(a.updatedAt).getTime();
+    }
+    if (a.updatedAt) return -1;
+    if (b.updatedAt) return 1;
+    return 0;
+  });
+
   return (
     <main>
       <section className="relative h-screen flex items-center justify-center bg-white">
@@ -45,93 +65,80 @@ export default function Page() {
         </div>
       </section>
 
-      <Section id="projects" title="项目作品">
-        <div className="grid gap-12 md:grid-cols-2 lg:grid-cols-3">
-          {PROJECTS.map((p) => (
-            <Link key={p.slug} href={`/projects/${p.slug}`} className="group block">
-              <div className="space-y-6">
-                <div className="aspect-square bg-gray-100 rounded-2xl overflow-hidden group-hover:bg-gray-50 transition-colors duration-300">
-                  <div className="w-full h-full bg-gradient-to-br from-gray-200 to-gray-300 flex items-center justify-center">
-                    <span className="text-gray-500 text-sm font-medium">项目预览</span>
-                  </div>
-                </div>
-                <div className="space-y-3">
-                  <h3 className="text-2xl font-semibold text-black group-hover:text-gray-600 transition-colors">{p.title}</h3>
-                  <p className="text-gray-600 text-base leading-relaxed">{p.desc}</p>
-                  <div className="flex flex-wrap gap-2">
-                    {p.stack.map(s => (
-                      <span key={s} className="px-3 py-1 bg-gray-100 text-gray-700 text-sm rounded-full group-hover:bg-gray-200 transition-colors">
-                        {s}
-                      </span>
-                    ))}
-                  </div>
-                </div>
-              </div>
+      <Section id="projects" title="项目作品" fullWidth>
+        <div className="space-y-8">
+          <ProjectMarquee projects={allProjects.slice(0, 8)} speed={80} />
+          <div className="flex justify-center">
+            <Link href="/projects" className="px-6 py-3 border border-gray-300 text-gray-700 font-medium rounded-full hover:border-gray-400 hover:bg-gray-50 transition-colors">
+              查看更多项目
             </Link>
-          ))}
+          </div>
         </div>
       </Section>
 
-      <Section id="skills" title="技能专长">
-        <div className="grid gap-8 md:grid-cols-2 lg:grid-cols-3">
-          <div className="space-y-6">
-            <h3 className="text-2xl font-semibold text-black">后端开发</h3>
-            <div className="flex flex-wrap gap-3">
-              {["Python", "Django", "Flask", "FastAPI", "Asyncio", "Golang", "Java", "Node.js"].map(skill => (
-                <span key={skill} className="px-4 py-2 bg-gray-100 text-gray-700 text-sm rounded-full hover:bg-gray-200 transition-colors cursor-default">
-                  {skill}
-                </span>
-              ))}
+      <Section id="skills" title="技能专长" fullWidth>
+        <div className="space-y-8">
+          <SkillMarquee skills={ALL_SKILLS} speed={30} />
+          <div className="grid gap-8 md:grid-cols-2 lg:grid-cols-3">
+            <div className="space-y-6">
+              <h3 className="text-2xl font-semibold text-black">后端开发</h3>
+              <div className="flex flex-wrap gap-3">
+                {["Python", "Django", "Flask", "FastAPI", "Asyncio", "Golang", "Java", "Node.js"].map(skill => (
+                  <span key={skill} className="px-4 py-2 bg-gray-100 text-gray-700 text-sm rounded-full hover:bg-gray-200 transition-colors cursor-default">
+                    {skill}
+                  </span>
+                ))}
+              </div>
             </div>
-          </div>
-          <div className="space-y-6">
-            <h3 className="text-2xl font-semibold text-black">数据库 & 存储</h3>
-            <div className="flex flex-wrap gap-3">
-              {["MySQL", "PostgreSQL", "MongoDB", "Redis", "RabbitMQ", "Kafka"].map(skill => (
-                <span key={skill} className="px-4 py-2 bg-gray-100 text-gray-700 text-sm rounded-full hover:bg-gray-200 transition-colors cursor-default">
-                  {skill}
-                </span>
-              ))}
+            <div className="space-y-6">
+              <h3 className="text-2xl font-semibold text-black">数据库 & 存储</h3>
+              <div className="flex flex-wrap gap-3">
+                {["MySQL", "PostgreSQL", "MongoDB", "Redis", "RabbitMQ", "Kafka"].map(skill => (
+                  <span key={skill} className="px-4 py-2 bg-gray-100 text-gray-700 text-sm rounded-full hover:bg-gray-200 transition-colors cursor-default">
+                    {skill}
+                  </span>
+                ))}
+              </div>
             </div>
-          </div>
-          <div className="space-y-6">
-            <h3 className="text-2xl font-semibold text-black">DevOps & 云原生</h3>
-            <div className="flex flex-wrap gap-3">
-              {["Docker", "Kubernetes", "Jenkins", "GitLab CI", "Nginx", "Terraform"].map(skill => (
-                <span key={skill} className="px-4 py-2 bg-gray-100 text-gray-700 text-sm rounded-full hover:bg-gray-200 transition-colors cursor-default">
-                  {skill}
-                </span>
-              ))}
+            <div className="space-y-6">
+              <h3 className="text-2xl font-semibold text-black">DevOps & 云原生</h3>
+              <div className="flex flex-wrap gap-3">
+                {["Docker", "Kubernetes", "Jenkins", "GitLab CI", "Nginx", "Terraform"].map(skill => (
+                  <span key={skill} className="px-4 py-2 bg-gray-100 text-gray-700 text-sm rounded-full hover:bg-gray-200 transition-colors cursor-default">
+                    {skill}
+                  </span>
+                ))}
+              </div>
             </div>
-          </div>
-          <div className="space-y-6">
-            <h3 className="text-2xl font-semibold text-black">前端 & 可视化</h3>
-            <div className="flex flex-wrap gap-3">
-              {["React", "Vue.js", "TypeScript", "Three.js", "Echarts", "WebSocket"].map(skill => (
-                <span key={skill} className="px-4 py-2 bg-gray-100 text-gray-700 text-sm rounded-full hover:bg-gray-200 transition-colors cursor-default">
-                  {skill}
-                </span>
-              ))}
+            <div className="space-y-6">
+              <h3 className="text-2xl font-semibold text-black">前端 & 可视化</h3>
+              <div className="flex flex-wrap gap-3">
+                {["React", "Vue.js", "TypeScript", "Three.js", "Echarts", "WebSocket"].map(skill => (
+                  <span key={skill} className="px-4 py-2 bg-gray-100 text-gray-700 text-sm rounded-full hover:bg-gray-200 transition-colors cursor-default">
+                    {skill}
+                  </span>
+                ))}
+              </div>
             </div>
-          </div>
-          <div className="space-y-6">
-            <h3 className="text-2xl font-semibold text-black">测试 & 质量</h3>
-            <div className="flex flex-wrap gap-3">
-              {["Pytest", "Selenium", "OWASP ZAP", "Allure", "Jira", "Postman"].map(skill => (
-                <span key={skill} className="px-4 py-2 bg-gray-100 text-gray-700 text-sm rounded-full hover:bg-gray-200 transition-colors cursor-default">
-                  {skill}
-                </span>
-              ))}
+            <div className="space-y-6">
+              <h3 className="text-2xl font-semibold text-black">测试 & 质量</h3>
+              <div className="flex flex-wrap gap-3">
+                {["Pytest", "Selenium", "OWASP ZAP", "Allure", "Jira", "Postman"].map(skill => (
+                  <span key={skill} className="px-4 py-2 bg-gray-100 text-gray-700 text-sm rounded-full hover:bg-gray-200 transition-colors cursor-default">
+                    {skill}
+                  </span>
+                ))}
+              </div>
             </div>
-          </div>
-          <div className="space-y-6">
-            <h3 className="text-2xl font-semibold text-black">其他技术</h3>
-            <div className="flex flex-wrap gap-3">
-              {["Linux", "Ansible", "Prometheus", "Grafana", "Packer", "Flatpak"].map(skill => (
-                <span key={skill} className="px-4 py-2 bg-gray-100 text-gray-700 text-sm rounded-full hover:bg-gray-200 transition-colors cursor-default">
-                  {skill}
-                </span>
-              ))}
+            <div className="space-y-6">
+              <h3 className="text-2xl font-semibold text-black">其他技术</h3>
+              <div className="flex flex-wrap gap-3">
+                {["Linux", "Ansible", "Prometheus", "Grafana", "Packer", "Flatpak"].map(skill => (
+                  <span key={skill} className="px-4 py-2 bg-gray-100 text-gray-700 text-sm rounded-full hover:bg-gray-200 transition-colors cursor-default">
+                    {skill}
+                  </span>
+                ))}
+              </div>
             </div>
           </div>
         </div>
@@ -347,7 +354,7 @@ export default function Page() {
               <a className="text-gray-600 hover:text-black transition-colors text-lg" href="mailto:icey123580@gmail.com">icey123580@gmail.com</a>
               <a className="text-gray-600 hover:text-black transition-colors text-lg" href="https://github.com/Reallier" target="_blank" rel="noopener noreferrer">github.com/Reallier</a>
               <a className="text-gray-600 hover:text-black transition-colors text-lg" href="https://linkedin.com/in/reallier" target="_blank" rel="noopener noreferrer">linkedin.com/in/reallier</a>
-              <span className="text-gray-500 text-lg">+86 17516207850 • 深圳，中国</span>
+              <span className="text-gray-500 text-lg">深圳，中国</span>
             </div>
             <div className="mt-6 flex gap-4">
               <a href="/resume.pdf" className="px-6 py-3 bg-black text-white font-medium rounded-full hover:bg-gray-800 transition-colors">
