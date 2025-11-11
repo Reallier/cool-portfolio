@@ -2,6 +2,8 @@ import dynamic from "next/dynamic";
 import Link from "next/link";
 import ProjCard from "@/components/ProjCard";
 import Section from "@/components/Section";
+import Navigation from "@/components/Navigation";
+import ExperienceCard from "@/components/ExperienceCard";
 import MagneticButton from "@/components/ui/MagneticButton";
 import SkillMarquee from "@/components/ui/SkillMarquee";
 import ProjectMarquee from "@/components/ui/ProjectMarquee";
@@ -37,7 +39,8 @@ export default async function Page() {
 
   return (
     <main>
-      <section className="relative h-screen flex items-center justify-center bg-white">
+      <Navigation />
+      <section id="top" className="relative h-screen flex items-center justify-center bg-white">
         <div className="absolute inset-0 bg-gradient-to-br from-gray-50 to-white" />
         <div className="relative z-10 max-w-4xl mx-auto px-6 text-center">
           <div className="space-y-8">
@@ -65,7 +68,7 @@ export default async function Page() {
         </div>
       </section>
 
-      <Section id="projects" title="项目作品" fullWidth>
+      <Section id="projects" title="项目作品">
         <div className="space-y-8">
           <ProjectMarquee projects={allProjects.slice(0, 8)} speed={80} />
           <div className="flex justify-center">
@@ -76,7 +79,7 @@ export default async function Page() {
         </div>
       </Section>
 
-      <Section id="skills" title="技能专长" fullWidth>
+      <Section id="skills" title="技能专长">
         <div className="space-y-8">
           <SkillMarquee skills={ALL_SKILLS} speed={30} />
           <div className="grid gap-8 md:grid-cols-2 lg:grid-cols-3">
@@ -146,50 +149,46 @@ export default async function Page() {
 
       <Section id="experience" title="工作经历">
         <div className="space-y-12">
-          <div className="space-y-4">
-            <div className="flex flex-col md:flex-row md:items-center md:justify-between">
-              <h3 className="text-3xl font-semibold text-black">Senior Testing Developer</h3>
-              <span className="text-gray-500 font-medium text-lg">2023.6 - 至今</span>
-            </div>
-            <p className="text-gray-600 text-lg">Garena Technology Private Limited • 新加坡</p>
-            <ul className="text-gray-700 space-y-2 text-base leading-relaxed">
-              <li>• 担任交易模块测试开发小组长，主导关键模块设计与实现</li>
-              <li>• 独立设计交易模块API批量自动化插件，使用Flask+Vue前后端分离</li>
-              <li>• 设计联赛数据源下发模块，多进程并行生成随机比赛数据</li>
-              <li>• 重构请求轮询链路，引入Asyncio、缓存和数据库优化</li>
-              <li>• 配置OWASP ZAP进行安全测试，检测SQL注入、XSS等漏洞</li>
-            </ul>
-          </div>
-
-          <div className="space-y-4">
-            <div className="flex flex-col md:flex-row md:items-center md:justify-between">
-              <h3 className="text-3xl font-semibold text-black">自动化技术支持</h3>
-              <span className="text-gray-500 font-medium text-lg">2022.7 - 2023.6</span>
-            </div>
-            <p className="text-gray-600 text-lg">联想信息产品（深圳）有限公司 • 中国深圳</p>
-            <ul className="text-gray-700 space-y-2 text-base leading-relaxed">
-              <li>• 为各部门建立数据库，负责数据收集、清理和集成</li>
-              <li>• 开发BI报告和自动化数据管道，使用Power BI和Python可视化</li>
-              <li>• 校验EOM、MCT、QDS等智能制造系统，集成OPC UA协议</li>
-              <li>• 开发多种自动化解决方案，包括UI自动化和微服务应用</li>
-              <li>• 提供持续IT支持，解决数据库查询和系统维护问题</li>
-            </ul>
-          </div>
-
-          <div className="space-y-4">
-            <div className="flex flex-col md:flex-row md:items-center md:justify-between">
-              <h3 className="text-3xl font-semibold text-black">技术合伙人</h3>
-              <span className="text-gray-500 font-medium text-lg">2020.7 - 2022.7</span>
-            </div>
-            <p className="text-gray-600 text-lg">西安云桥联动网络科技有限公司 • 中国广东</p>
-            <ul className="text-gray-700 space-y-2 text-base leading-relaxed">
-              <li>• 深度开发Pterodactyl游戏服务面板，适配多种游戏服务器</li>
-              <li>• 开发游戏配置文件动态分发技术，基于Cloudflare Workers</li>
-              <li>• 搭建监控系统使用Prometheus+Grafana，部署Ansible自动化脚本</li>
-              <li>• 开发Kubernetes Operator调度游戏服务器，编写Terraform配置</li>
-              <li>• 研究Linux运行Windows程序技术，使用Flatpak进行沙箱化</li>
-            </ul>
-          </div>
+          {[
+            {
+              title: "Senior Testing Developer",
+              period: "2023.6 - 至今",
+              company: "Garena Technology Private Limited • 新加坡",
+              description: [
+                "担任交易模块测试开发小组长，主导关键模块设计与实现",
+                "独立设计交易模块API批量自动化插件，使用Flask+Vue前后端分离",
+                "设计联赛数据源下发模块，多进程并行生成随机比赛数据",
+                "重构请求轮询链路，引入Asyncio、缓存和数据库优化",
+                "配置OWASP ZAP进行安全测试，检测SQL注入、XSS等漏洞"
+              ]
+            },
+            {
+              title: "自动化技术支持",
+              period: "2022.7 - 2023.6",
+              company: "联想信息产品（深圳）有限公司 • 中国深圳",
+              description: [
+                "为各部门建立数据库，负责数据收集、清理和集成",
+                "开发BI报告和自动化数据管道，使用Power BI和Python可视化",
+                "校验EOM、MCT、QDS等智能制造系统，集成OPC UA协议",
+                "开发多种自动化解决方案，包括UI自动化和微服务应用",
+                "提供持续IT支持，解决数据库查询和系统维护问题"
+              ]
+            },
+            {
+              title: "技术合伙人",
+              period: "2020.7 - 2022.7",
+              company: "西安云桥联动网络科技有限公司 • 中国广东",
+              description: [
+                "深度开发Pterodactyl游戏服务面板，适配多种游戏服务器",
+                "开发游戏配置文件动态分发技术，基于Cloudflare Workers",
+                "搭建监控系统使用Prometheus+Grafana，部署Ansible自动化脚本",
+                "开发Kubernetes Operator调度游戏服务器，编写Terraform配置",
+                "研究Linux运行Windows程序技术，使用Flatpak进行沙箱化"
+              ]
+            }
+          ].map((experience, index) => (
+            <ExperienceCard key={index} experience={experience} index={index} />
+          ))}
         </div>
       </Section>
 
