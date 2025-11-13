@@ -8,6 +8,7 @@ import MagneticButton from "@/components/ui/MagneticButton";
 import SkillMarquee from "@/components/ui/SkillMarquee";
 import ProjectMarquee from "@/components/ui/ProjectMarquee";
 import { PROJECTS, getGitHubProjects } from "@/lib/projects";
+import { getLatestPosts } from "@/lib/blog";
 
 const ThreeHero = dynamic(() => import("./ThreeHero"), { ssr: false });
 
@@ -22,9 +23,10 @@ const ALL_SKILLS = [
 ];
 
 export default async function Page() {
-  const [staticProjects, githubProjects] = await Promise.all([
+  const [staticProjects, githubProjects, latestPosts] = await Promise.all([
     Promise.resolve(PROJECTS),
-    getGitHubProjects()
+    getGitHubProjects(),
+    Promise.resolve(getLatestPosts(3))
   ]);
 
   // 合并项目并按更新时间排序，GitHub项目优先显示最新的
@@ -292,50 +294,33 @@ export default async function Page() {
 
       <Section id="blog" title="最新文章">
         <div className="grid gap-8 md:grid-cols-2 lg:grid-cols-3">
-          <article className="space-y-4 p-6 border border-gray-200 rounded-2xl hover:border-gray-300 transition-colors">
-            <div className="space-y-2">
-              <h3 className="text-xl font-semibold text-black">Python异步编程最佳实践</h3>
-              <p className="text-gray-600 text-sm">2024.11.08</p>
-            </div>
-            <p className="text-gray-700 leading-relaxed">
-              深入探讨Asyncio在高并发场景下的应用，结合实际项目经验分享性能优化技巧。
-            </p>
-            <div className="flex flex-wrap gap-2">
-              <span className="px-3 py-1 bg-gray-100 text-gray-700 text-sm rounded-full">Python</span>
-              <span className="px-3 py-1 bg-gray-100 text-gray-700 text-sm rounded-full">Asyncio</span>
-            </div>
-          </article>
-          <article className="space-y-4 p-6 border border-gray-200 rounded-2xl hover:border-gray-300 transition-colors">
-            <div className="space-y-2">
-              <h3 className="text-xl font-semibold text-black">Kubernetes游戏服务器调度实践</h3>
-              <p className="text-gray-600 text-sm">2024.10.25</p>
-            </div>
-            <p className="text-gray-700 leading-relaxed">
-              分享在Garena项目中实现游戏服务器自动扩缩容的技术方案和经验教训。
-            </p>
-            <div className="flex flex-wrap gap-2">
-              <span className="px-3 py-1 bg-gray-100 text-gray-700 text-sm rounded-full">Kubernetes</span>
-              <span className="px-3 py-1 bg-gray-100 text-gray-700 text-sm rounded-full">DevOps</span>
-            </div>
-          </article>
-          <article className="space-y-4 p-6 border border-gray-200 rounded-2xl hover:border-gray-300 transition-colors">
-            <div className="space-y-2">
-              <h3 className="text-xl font-semibold text-black">测试驱动开发的工程实践</h3>
-              <p className="text-gray-600 text-sm">2024.10.12</p>
-            </div>
-            <p className="text-gray-700 leading-relaxed">
-              如何在大型项目中实施TDD，提高代码质量和开发效率的实用指南。
-            </p>
-            <div className="flex flex-wrap gap-2">
-              <span className="px-3 py-1 bg-gray-100 text-gray-700 text-sm rounded-full">测试</span>
-              <span className="px-3 py-1 bg-gray-100 text-gray-700 text-sm rounded-full">TDD</span>
-            </div>
-          </article>
+          {latestPosts.map((post) => (
+            <article key={post.slug} className="space-y-4 p-6 border border-gray-200 rounded-2xl hover:border-gray-300 transition-colors">
+              <div className="space-y-2">
+                <Link href={`/blog/${post.slug}`} className="block">
+                  <h3 className="text-xl font-semibold text-black hover:text-gray-700 transition-colors">
+                    {post.title}
+                  </h3>
+                </Link>
+                <p className="text-gray-600 text-sm">{post.date}</p>
+              </div>
+              <p className="text-gray-700 leading-relaxed">
+                {post.description}
+              </p>
+              <div className="flex flex-wrap gap-2">
+                {post.tags.map(tag => (
+                  <span key={tag} className="px-3 py-1 bg-gray-100 text-gray-700 text-sm rounded-full">
+                    {tag}
+                  </span>
+                ))}
+              </div>
+            </article>
+          ))}
         </div>
         <div className="mt-8 text-center">
-          <a href="/blog" className="px-6 py-3 border border-gray-300 text-gray-700 font-medium rounded-full hover:border-gray-400 hover:bg-gray-50 transition-colors">
+          <Link href="/blog" className="px-6 py-3 border border-gray-300 text-gray-700 font-medium rounded-full hover:border-gray-400 hover:bg-gray-50 transition-colors">
             查看全部文章
-          </a>
+          </Link>
         </div>
       </Section>
 
