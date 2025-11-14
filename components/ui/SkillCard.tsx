@@ -12,7 +12,6 @@ interface SkillCardProps {
 
 export default function SkillCard({ title, skills, bgColor = 'bg-page-section', index = 0 }: SkillCardProps) {
   const [hoveredSkill, setHoveredSkill] = useState<string | null>(null);
-  const [tooltipPosition, setTooltipPosition] = useState({ x: 0, y: 0 });
   const [isVisible, setIsVisible] = useState(false);
   const cardRef = useRef<HTMLDivElement>(null);
 
@@ -43,13 +42,8 @@ export default function SkillCard({ title, skills, bgColor = 'bg-page-section', 
     };
   }, [index]);
 
-  const handleMouseEnter = (skillName: string, event: React.MouseEvent) => {
+  const handleMouseEnter = (skillName: string) => {
     setHoveredSkill(skillName);
-    const rect = event.currentTarget.getBoundingClientRect();
-    setTooltipPosition({
-      x: rect.left + rect.width / 2,
-      y: rect.top - 10
-    });
   };
 
   const handleMouseLeave = () => {
@@ -76,7 +70,7 @@ export default function SkillCard({ title, skills, bgColor = 'bg-page-section', 
               <div
                 key={skill.name}
                 className="relative group flex items-center space-x-2 px-3 py-1.5 rounded-full bg-white/80 text-text-muted text-xs md:text-sm border border-border-subtle/70 hover:border-primary-blue/50 hover:bg-primary-blue/10 hover:text-primary-blue transition-all duration-300 cursor-pointer transform hover:scale-105 shadow-sm"
-                onMouseEnter={(e) => handleMouseEnter(skill.name, e)}
+                onMouseEnter={() => handleMouseEnter(skill.name)}
                 onMouseLeave={handleMouseLeave}
               >
                 {IconComponent && <IconComponent className="h-4 w-4" />}
@@ -90,12 +84,7 @@ export default function SkillCard({ title, skills, bgColor = 'bg-page-section', 
       {/* Tooltip */}
       {hoveredSkill && (
         <div
-          className="fixed z-50 px-4 py-3 bg-slate-800/95 backdrop-blur-sm text-white text-sm rounded-xl shadow-2xl pointer-events-none max-w-sm border border-slate-700/50 animate-in fade-in-0 zoom-in-95 duration-200"
-          style={{
-            left: tooltipPosition.x,
-            top: tooltipPosition.y,
-            transform: 'translate(-50%, -100%)',
-          }}
+          className="absolute bottom-[calc(100%+10px)] left-1/2 -translate-x-1/2 z-50 px-4 py-3 bg-slate-800/95 backdrop-blur-sm text-white text-sm rounded-xl shadow-2xl pointer-events-none max-w-sm border border-slate-700/50 animate-in fade-in-0 zoom-in-95 duration-200"
         >
           <div className="font-medium text-slate-200 mb-1">
             {hoveredSkill}
@@ -104,7 +93,7 @@ export default function SkillCard({ title, skills, bgColor = 'bg-page-section', 
             {skills.find(s => s.name === hoveredSkill)?.description}
           </div>
           <div
-            className="absolute top-full left-1/2 transform -translate-x-1/2 w-0 h-0 border-l-4 border-r-4 border-t-4 border-transparent border-t-slate-800/95"
+            className="absolute top-full left-1/2 -translate-x-1/2 w-0 h-0 border-l-4 border-r-4 border-t-4 border-transparent border-t-slate-800/95"
           />
         </div>
       )}
