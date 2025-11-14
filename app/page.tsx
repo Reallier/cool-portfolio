@@ -15,7 +15,7 @@ import { getLatestPosts } from "@/lib/blog";
 
 const ThreeHero = dynamic(() => import("./ThreeHero"), { ssr: false });
 
-export const INTRO_SECTIONS = [
+const INTRO_SECTIONS = [
   {
     text: "拥有大型企业（联想）和海外公司（Garena新加坡）工作经验的资深测试开发工程师。",
   },
