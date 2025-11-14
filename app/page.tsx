@@ -1,4 +1,5 @@
 import dynamic from "next/dynamic";
+import Image from "next/image";
 import Link from "next/link";
 import ProjCard from "@/components/ProjCard";
 import Section from "@/components/Section";
@@ -11,6 +12,8 @@ import { PROJECTS, getGitHubProjects } from "@/lib/projects";
 import { getLatestPosts } from "@/lib/blog";
 
 const ThreeHero = dynamic(() => import("./ThreeHero"), { ssr: false });
+
+const AvatarWithFloat = dynamic(() => import("./AvatarWithFloat"), { ssr: false });
 
 // 所有技能列表
 const ALL_SKILLS = [
@@ -42,41 +45,91 @@ export default async function Page() {
   return (
     <main>
       <Navigation />
-      <section id="top" className="relative h-screen flex items-center justify-center bg-white">
-        <div className="absolute inset-0 bg-gradient-to-br from-gray-50 to-white" />
-        <div className="relative z-10 max-w-4xl mx-auto px-6 text-center">
-          <div className="space-y-8">
-            <div className="space-y-4">
-              <p className="text-gray-600 font-medium tracking-widest uppercase text-sm">Hello, I'm</p>
-              <h1 className="text-7xl md:text-9xl font-bold tracking-tight text-black">
-                Reallier Wei
+      <section
+        id="top"
+        className="relative flex items-center min-h-[90vh] pt-24 pb-16 overflow-hidden"
+      >
+        <div className="absolute inset-0 bg-gradient-to-br from-page-section via-page to-page pointer-events-none" />
+        <div className="absolute -right-40 -top-40 h-80 w-80 rounded-full bg-gradient-to-br from-primary-blue/30 to-primary-cyan/20 blur-3xl opacity-70 pointer-events-none" />
+        <div className="relative z-10 w-full px-8 md:px-12 lg:px-16">
+          <div className="flex items-center justify-between gap-16 md:gap-24 lg:gap-32">
+            <div className="flex-1 min-w-0 space-y-6 text-right">
+              <p className="text-sm font-semibold tracking-[0.4em] text-text-soft uppercase">
+                Hello, I'm
+              </p>
+              <h1 className="text-5xl sm:text-6xl md:text-7xl lg:text-8xl font-bold tracking-tight">
+                <span className="bg-gradient-to-r from-primary-blue to-primary-cyan bg-clip-text text-transparent">
+                  Reallier Wei
+                </span>
               </h1>
+              <p className="text-xl md:text-2xl text-text-muted leading-snug">
+                Senior Testing Developer & Full-Stack Engineer
+              </p>
+              <p className="text-lg md:text-xl text-text-soft leading-snug">
+                Python专家 · DevOps实践者 · 技术创新者
+              </p>
+              <div className="flex flex-wrap gap-3 justify-end pt-2">
+                {["Python 全栈", "云原生 & Kubernetes", "自动化测试开发", "DevOps & CI/CD"].map((tag) => (
+                  <span
+                    key={tag}
+                    className="px-4 py-2 text-sm font-medium rounded-full bg-page-section text-text-muted border border-border-subtle/60"
+                  >
+                    {tag}
+                  </span>
+                ))}
+              </div>
             </div>
-            <p className="max-w-3xl text-2xl md:text-3xl text-gray-700 leading-relaxed font-light">
-              Senior Testing Developer & Full-Stack Engineer
-            </p>
-            <p className="max-w-2xl text-lg text-gray-600 leading-relaxed mx-auto">
-              Python专家 • DevOps实践者 • 技术创新者
-            </p>
-            <div className="flex flex-col sm:flex-row gap-6 justify-center mt-12">
-              <a href="#projects" className="group px-8 py-4 bg-black text-white font-medium rounded-full hover:bg-gray-800 transition-all duration-300">
-                查看项目
-              </a>
-              <a href="mailto:icey123580@gmail.com" className="group px-8 py-4 border border-gray-300 text-gray-700 font-medium rounded-full hover:border-gray-400 hover:bg-gray-50 transition-all duration-300">
-                联系我
-              </a>
+
+            <div className="flex-shrink-0">
+              <AvatarWithFloat />
+            </div>
+
+            <div className="flex-1 min-w-0 space-y-6 text-left">
+              <div className="space-y-4">
+                <h2 className="text-xl md:text-2xl font-semibold text-text-main">
+                  关于我
+                </h2>
+                <p className="text-base md:text-lg text-text-muted leading-snug">
+                  拥有大型企业（联想）和海外公司（Garena新加坡）工作经验的资深测试开发工程师。
+                </p>
+                <p className="text-base md:text-lg text-text-muted leading-snug">
+                  精通Python全栈开发、DevOps实践和自动化测试，擅长企业级项目架构设计、性能优化和高可用系统构建。
+                </p>
+              </div>
+              <div className="space-y-3">
+                <h3 className="text-lg md:text-xl font-semibold text-text-main">
+                  技术专长
+                </h3>
+                <div className="flex flex-wrap gap-2">
+                  {["测试自动化", "CI/CD", "云原生", "Python", "Kubernetes", "Docker"].map((skill) => (
+                    <span
+                      key={skill}
+                      className="px-3 py-1.5 text-xs font-medium rounded-full bg-primary-blue/10 text-primary-blue border border-primary-blue/20"
+                    >
+                      {skill}
+                    </span>
+                  ))}
+                </div>
+              </div>
             </div>
           </div>
         </div>
       </section>
 
-      <Section id="projects" title="项目作品">
-        <div className="space-y-8">
-          <ProjectMarquee projects={allProjects.slice(0, 8)} speed={80} />
-          <div className="flex justify-center">
-            <Link href="/projects" className="px-6 py-3 border border-gray-300 text-gray-700 font-medium rounded-full hover:border-gray-400 hover:bg-gray-50 transition-colors">
-              查看更多项目
-            </Link>
+      <Section id="projects" title="项目作品" fullWidth>
+        <div className="relative">
+          <div className="absolute left-0 top-0 bottom-0 w-32 bg-gradient-to-r from-page to-transparent z-10 pointer-events-none" />
+          <div className="absolute right-0 top-0 bottom-0 w-32 bg-gradient-to-l from-page to-transparent z-10 pointer-events-none" />
+          <div className="space-y-8">
+            <ProjectMarquee projects={allProjects.slice(0, 8)} speed={80} />
+            <div className="flex justify-center">
+              <Link
+                href="/projects"
+                className="inline-flex items-center justify-center px-6 py-3 text-sm font-semibold rounded-full border border-border-subtle bg-surface/80 text-text-muted hover:border-border-strong hover:bg-page-section/70 transition-colors"
+              >
+                查看更多项目
+              </Link>
+            </div>
           </div>
         </div>
       </Section>
@@ -86,60 +139,78 @@ export default async function Page() {
           <SkillMarquee skills={ALL_SKILLS} speed={30} />
           <div className="grid gap-8 md:grid-cols-2 lg:grid-cols-3">
             <div className="space-y-6">
-              <h3 className="text-2xl font-semibold text-black">后端开发</h3>
+              <h3 className="text-xl md:text-2xl font-semibold text-text-main">后端开发</h3>
               <div className="flex flex-wrap gap-3">
-                {["Python", "Django", "Flask", "FastAPI", "Asyncio", "Golang", "Java", "Node.js"].map(skill => (
-                  <span key={skill} className="px-4 py-2 bg-gray-100 text-gray-700 text-sm rounded-full hover:bg-gray-200 transition-colors cursor-default">
+                {["Python", "Django", "Flask", "FastAPI", "Asyncio", "Golang", "Java", "Node.js"].map((skill) => (
+                  <span
+                    key={skill}
+                    className="px-3 py-1.5 rounded-full bg-page-section text-text-muted text-xs md:text-sm border border-border-subtle/70 hover:border-border-strong hover:bg-surface/80 transition-colors cursor-default"
+                  >
                     {skill}
                   </span>
                 ))}
               </div>
             </div>
             <div className="space-y-6">
-              <h3 className="text-2xl font-semibold text-black">数据库 & 存储</h3>
+              <h3 className="text-xl md:text-2xl font-semibold text-text-main">数据库 & 存储</h3>
               <div className="flex flex-wrap gap-3">
-                {["MySQL", "PostgreSQL", "MongoDB", "Redis", "RabbitMQ", "Kafka"].map(skill => (
-                  <span key={skill} className="px-4 py-2 bg-gray-100 text-gray-700 text-sm rounded-full hover:bg-gray-200 transition-colors cursor-default">
+                {["MySQL", "PostgreSQL", "MongoDB", "Redis", "RabbitMQ", "Kafka"].map((skill) => (
+                  <span
+                    key={skill}
+                    className="px-3 py-1.5 rounded-full bg-page-section text-text-muted text-xs md:text-sm border border-border-subtle/70 hover:border-border-strong hover:bg-surface/80 transition-colors cursor-default"
+                  >
                     {skill}
                   </span>
                 ))}
               </div>
             </div>
             <div className="space-y-6">
-              <h3 className="text-2xl font-semibold text-black">DevOps & 云原生</h3>
+              <h3 className="text-xl md:text-2xl font-semibold text-text-main">DevOps & 云原生</h3>
               <div className="flex flex-wrap gap-3">
-                {["Docker", "Kubernetes", "Jenkins", "GitLab CI", "Nginx", "Terraform"].map(skill => (
-                  <span key={skill} className="px-4 py-2 bg-gray-100 text-gray-700 text-sm rounded-full hover:bg-gray-200 transition-colors cursor-default">
+                {["Docker", "Kubernetes", "Jenkins", "GitLab CI", "Nginx", "Terraform"].map((skill) => (
+                  <span
+                    key={skill}
+                    className="px-3 py-1.5 rounded-full bg-page-section text-text-muted text-xs md:text-sm border border-border-subtle/70 hover:border-border-strong hover:bg-surface/80 transition-colors cursor-default"
+                  >
                     {skill}
                   </span>
                 ))}
               </div>
             </div>
             <div className="space-y-6">
-              <h3 className="text-2xl font-semibold text-black">前端 & 可视化</h3>
+              <h3 className="text-xl md:text-2xl font-semibold text-text-main">前端 & 可视化</h3>
               <div className="flex flex-wrap gap-3">
-                {["React", "Vue.js", "TypeScript", "Three.js", "Echarts", "WebSocket"].map(skill => (
-                  <span key={skill} className="px-4 py-2 bg-gray-100 text-gray-700 text-sm rounded-full hover:bg-gray-200 transition-colors cursor-default">
+                {["React", "Vue.js", "TypeScript", "Three.js", "Echarts", "WebSocket"].map((skill) => (
+                  <span
+                    key={skill}
+                    className="px-3 py-1.5 rounded-full bg-page-section text-text-muted text-xs md:text-sm border border-border-subtle/70 hover:border-border-strong hover:bg-surface/80 transition-colors cursor-default"
+                  >
                     {skill}
                   </span>
                 ))}
               </div>
             </div>
             <div className="space-y-6">
-              <h3 className="text-2xl font-semibold text-black">测试 & 质量</h3>
+              <h3 className="text-xl md:text-2xl font-semibold text-text-main">测试 & 质量</h3>
               <div className="flex flex-wrap gap-3">
-                {["Pytest", "Selenium", "OWASP ZAP", "Allure", "Jira", "Postman"].map(skill => (
-                  <span key={skill} className="px-4 py-2 bg-gray-100 text-gray-700 text-sm rounded-full hover:bg-gray-200 transition-colors cursor-default">
+                {["Pytest", "Selenium", "OWASP ZAP", "Allure", "Jira", "Postman"].map((skill) => (
+                  <span
+                    key={skill}
+                    className="px-3 py-1.5 rounded-full bg-page-section text-text-muted text-xs md:text-sm border border-border-subtle/70 hover:border-border-strong hover:bg-surface/80 transition-colors cursor-default"
+                  >
                     {skill}
                   </span>
                 ))}
               </div>
             </div>
             <div className="space-y-6">
-              <h3 className="text-2xl font-semibold text-black">其他技术</h3>
+              <h3 className="text-xl md:text-2xl font-semibold text-text-main">其他技术</h3>
               <div className="flex flex-wrap gap-3">
-                {["Linux", "Ansible", "Prometheus", "Grafana", "Packer", "Flatpak"].map(skill => (
-                  <span key={skill} className="px-4 py-2 bg-gray-100 text-gray-700 text-sm rounded-full hover:bg-gray-200 transition-colors cursor-default">
+                {["Linux", "Ansible", "Prometheus", "Grafana", "Packer", "Flatpak"].map((skill) => (
+                  <span
+                    key={skill}
+                    className="px-3 py-1.5 rounded-full bg-page-section text-text-muted text-xs md:text-sm border border-border-subtle/70 hover:border-border-strong hover:bg-surface/80 transition-colors cursor-default"
+                  >
                     {skill}
                   </span>
                 ))}
@@ -197,56 +268,56 @@ export default async function Page() {
       <Section id="achievements" title="个人成就">
         <div className="grid gap-8 md:grid-cols-2 lg:grid-cols-3">
           <div className="space-y-4">
-            <h3 className="text-2xl font-semibold text-black">技术认证</h3>
-            <ul className="space-y-3 text-gray-700">
+            <h3 className="text-2xl font-semibold text-text-main">技术认证</h3>
+            <ul className="space-y-3 text-text-muted">
               <li className="flex items-center gap-3">
-                <div className="w-2 h-2 bg-black rounded-full"></div>
+                <div className="w-1.5 h-1.5 bg-primary-blue rounded-full"></div>
                 <span>AWS Certified Solutions Architect</span>
               </li>
               <li className="flex items-center gap-3">
-                <div className="w-2 h-2 bg-black rounded-full"></div>
+                <div className="w-1.5 h-1.5 bg-primary-blue rounded-full"></div>
                 <span>CKA (Certified Kubernetes Administrator)</span>
               </li>
               <li className="flex items-center gap-3">
-                <div className="w-2 h-2 bg-black rounded-full"></div>
+                <div className="w-1.5 h-1.5 bg-primary-blue rounded-full"></div>
                 <span>Docker Certified Associate</span>
               </li>
               <li className="flex items-center gap-3">
-                <div className="w-2 h-2 bg-black rounded-full"></div>
+                <div className="w-1.5 h-1.5 bg-primary-blue rounded-full"></div>
                 <span>Python Professional Certification</span>
               </li>
             </ul>
           </div>
           <div className="space-y-4">
-            <h3 className="text-2xl font-semibold text-black">开源贡献</h3>
-            <ul className="space-y-3 text-gray-700">
+            <h3 className="text-2xl font-semibold text-text-main">开源贡献</h3>
+            <ul className="space-y-3 text-text-muted">
               <li className="flex items-center gap-3">
-                <div className="w-2 h-2 bg-black rounded-full"></div>
+                <div className="w-1.5 h-1.5 bg-primary-blue rounded-full"></div>
                 <span>Kubernetes社区贡献者</span>
               </li>
               <li className="flex items-center gap-3">
-                <div className="w-2 h-2 bg-black rounded-full"></div>
+                <div className="w-1.5 h-1.5 bg-primary-blue rounded-full"></div>
                 <span>开源测试框架维护者</span>
               </li>
               <li className="flex items-center gap-3">
-                <div className="w-2 h-2 bg-black rounded-full"></div>
+                <div className="w-1.5 h-1.5 bg-primary-blue rounded-full"></div>
                 <span>技术博客作者</span>
               </li>
             </ul>
           </div>
           <div className="space-y-4">
-            <h3 className="text-2xl font-semibold text-black">社区活动</h3>
-            <ul className="space-y-3 text-gray-700">
+            <h3 className="text-2xl font-semibold text-text-main">社区活动</h3>
+            <ul className="space-y-3 text-text-muted">
               <li className="flex items-center gap-3">
-                <div className="w-2 h-2 bg-black rounded-full"></div>
+                <div className="w-1.5 h-1.5 bg-primary-blue rounded-full"></div>
                 <span>PyCon China演讲者</span>
               </li>
               <li className="flex items-center gap-3">
-                <div className="w-2 h-2 bg-black rounded-full"></div>
+                <div className="w-1.5 h-1.5 bg-primary-blue rounded-full"></div>
                 <span>KubeCon参会者</span>
               </li>
               <li className="flex items-center gap-3">
-                <div className="w-2 h-2 bg-black rounded-full"></div>
+                <div className="w-1.5 h-1.5 bg-primary-blue rounded-full"></div>
                 <span>技术社区导师</span>
               </li>
             </ul>
@@ -256,34 +327,34 @@ export default async function Page() {
 
       <Section id="services" title="技术服务">
         <div className="grid gap-8 md:grid-cols-2 lg:grid-cols-3">
-          <div className="space-y-4 p-8 border border-gray-200 rounded-2xl hover:border-gray-300 transition-colors">
-            <h3 className="text-2xl font-semibold text-black">测试开发咨询</h3>
-            <p className="text-gray-600 leading-relaxed">
+          <div className="space-y-4 p-8 rounded-2xl border border-border-subtle bg-surface/80 shadow-sm transition-all duration-300 hover:border-border-strong hover:shadow-lg hover:shadow-primary-blue/10">
+            <h3 className="text-2xl font-semibold text-text-main">测试开发咨询</h3>
+            <p className="text-text-muted leading-relaxed">
               提供自动化测试框架设计、性能测试策略、CI/CD流程优化等专业咨询服务。
             </p>
-            <ul className="text-gray-700 space-y-1 text-sm">
+            <ul className="text-text-soft space-y-1 text-sm">
               <li>• 测试策略规划</li>
               <li>• 自动化框架搭建</li>
               <li>• 性能优化指导</li>
             </ul>
           </div>
-          <div className="space-y-4 p-8 border border-gray-200 rounded-2xl hover:border-gray-300 transition-colors">
-            <h3 className="text-2xl font-semibold text-black">DevOps实施</h3>
-            <p className="text-gray-600 leading-relaxed">
+          <div className="space-y-4 p-8 rounded-2xl border border-border-subtle bg-surface/80 shadow-sm transition-all duration-300 hover:border-border-strong hover:shadow-lg hover:shadow-primary-blue/10">
+            <h3 className="text-2xl font-semibold text-text-main">DevOps实施</h3>
+            <p className="text-text-muted leading-relaxed">
               容器化部署、Kubernetes集群管理、监控告警系统搭建等DevOps全栈服务。
             </p>
-            <ul className="text-gray-700 space-y-1 text-sm">
+            <ul className="text-text-soft space-y-1 text-sm">
               <li>• 容器化迁移</li>
               <li>• K8s集群部署</li>
               <li>• 监控系统搭建</li>
             </ul>
           </div>
-          <div className="space-y-4 p-8 border border-gray-200 rounded-2xl hover:border-gray-300 transition-colors">
-            <h3 className="text-2xl font-semibold text-black">技术培训</h3>
-            <p className="text-gray-600 leading-relaxed">
+          <div className="space-y-4 p-8 rounded-2xl border border-border-subtle bg-surface/80 shadow-sm transition-all duration-300 hover:border-border-strong hover:shadow-lg hover:shadow-primary-blue/10">
+            <h3 className="text-2xl font-semibold text-text-main">技术培训</h3>
+            <p className="text-text-muted leading-relaxed">
               Python高级编程、测试开发最佳实践、DevOps工程实践等专业培训课程。
             </p>
-            <ul className="text-gray-700 space-y-1 text-sm">
+            <ul className="text-text-soft space-y-1 text-sm">
               <li>• 企业内训</li>
               <li>• 技术workshop</li>
               <li>• 代码审查指导</li>
@@ -295,21 +366,27 @@ export default async function Page() {
       <Section id="blog" title="最新文章">
         <div className="grid gap-8 md:grid-cols-2 lg:grid-cols-3">
           {latestPosts.map((post) => (
-            <article key={post.slug} className="space-y-4 p-6 border border-gray-200 rounded-2xl hover:border-gray-300 transition-colors">
+            <article
+              key={post.slug}
+              className="space-y-4 p-6 rounded-2xl border border-border-subtle bg-surface/80 shadow-sm transition-all duration-300 hover:border-border-strong hover:shadow-lg hover:shadow-primary-blue/10"
+            >
               <div className="space-y-2">
                 <Link href={`/blog/${post.slug}`} className="block">
-                  <h3 className="text-xl font-semibold text-black hover:text-gray-700 transition-colors">
+                  <h3 className="text-xl font-semibold text-text-main hover:text-primary-blue transition-colors">
                     {post.title}
                   </h3>
                 </Link>
-                <p className="text-gray-600 text-sm">{post.date}</p>
+                <p className="text-text-soft text-sm">{post.date}</p>
               </div>
-              <p className="text-gray-700 leading-relaxed">
+              <p className="text-text-muted leading-relaxed">
                 {post.description}
               </p>
               <div className="flex flex-wrap gap-2">
-                {post.tags.map(tag => (
-                  <span key={tag} className="px-3 py-1 bg-gray-100 text-gray-700 text-sm rounded-full">
+                {post.tags.map((tag) => (
+                  <span
+                    key={tag}
+                    className="px-3 py-1 text-xs md:text-sm rounded-full bg-page-section text-text-muted border border-border-subtle/60"
+                  >
                     {tag}
                   </span>
                 ))}
@@ -318,7 +395,10 @@ export default async function Page() {
           ))}
         </div>
         <div className="mt-8 text-center">
-          <Link href="/blog" className="px-6 py-3 border border-gray-300 text-gray-700 font-medium rounded-full hover:border-gray-400 hover:bg-gray-50 transition-colors">
+          <Link
+            href="/blog"
+            className="inline-flex items-center justify-center px-6 py-3 text-sm font-semibold rounded-full border border-border-subtle bg-surface/80 text-text-muted hover:border-border-strong hover:bg-page-section/70 transition-colors"
+          >
             查看全部文章
           </Link>
         </div>
@@ -326,25 +406,50 @@ export default async function Page() {
 
       <Section title="关于">
         <div className="max-w-4xl space-y-6">
-          <p className="text-gray-700 text-lg leading-relaxed">
+          <p className="text-text-muted text-lg leading-relaxed">
             拥有大型企业（联想）和海外公司（Garena新加坡）工作经验的资深测试开发工程师。精通Python全栈开发、DevOps实践和自动化测试。
             擅长企业级项目架构设计、性能优化和高可用系统构建。具备丰富的CI/CD、容器化部署和云原生技术经验。
           </p>
-          <p className="text-gray-700 text-lg leading-relaxed">
+          <p className="text-text-muted text-lg leading-relaxed">
             目前专注于游戏行业测试开发，主导交易模块自动化平台建设和数据驱动测试框架。期待在前端可视化、后端架构优化和DevOps领域继续深耕。
           </p>
-          <div className="pt-8 border-t border-gray-200">
+          <div className="pt-8 border-t border-border-subtle">
             <div className="flex flex-col gap-3">
-              <a className="text-gray-600 hover:text-black transition-colors text-lg" href="mailto:icey123580@gmail.com">icey123580@gmail.com</a>
-              <a className="text-gray-600 hover:text-black transition-colors text-lg" href="https://github.com/Reallier" target="_blank" rel="noopener noreferrer">github.com/Reallier</a>
-              <a className="text-gray-600 hover:text-black transition-colors text-lg" href="https://linkedin.com/in/reallier" target="_blank" rel="noopener noreferrer">linkedin.com/in/reallier</a>
-              <span className="text-gray-500 text-lg">深圳，中国</span>
+              <a
+                className="text-text-muted hover:text-primary-blue transition-colors text-lg"
+                href="mailto:icey123580@gmail.com"
+              >
+                icey123580@gmail.com
+              </a>
+              <a
+                className="text-text-muted hover:text-primary-blue transition-colors text-lg"
+                href="https://github.com/Reallier"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                github.com/Reallier
+              </a>
+              <a
+                className="text-text-muted hover:text-primary-blue transition-colors text-lg"
+                href="https://linkedin.com/in/reallier"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                linkedin.com/in/reallier
+              </a>
+              <span className="text-text-soft text-lg">深圳，中国</span>
             </div>
-            <div className="mt-6 flex gap-4">
-              <a href="/resume.pdf" className="px-6 py-3 bg-black text-white font-medium rounded-full hover:bg-gray-800 transition-colors">
+            <div className="mt-6 flex flex-wrap gap-4">
+              <a
+                href="/resume.pdf"
+                className="inline-flex items-center justify-center px-6 py-3 text-sm font-semibold rounded-full bg-gradient-to-r from-primary-blue to-primary-cyan text-white shadow-lg shadow-primary-blue/30 hover:shadow-xl hover:shadow-primary-blue/40 transition-all duration-300"
+              >
                 下载简历
               </a>
-              <a href="#contact" className="px-6 py-3 border border-gray-300 text-gray-700 font-medium rounded-full hover:border-gray-400 hover:bg-gray-50 transition-colors">
+              <a
+                href="#contact"
+                className="inline-flex items-center justify-center px-6 py-3 text-sm font-semibold rounded-full border border-border-subtle bg-surface/80 text-text-muted hover:border-border-strong hover:bg-page-section/70 transition-colors"
+              >
                 联系我
               </a>
             </div>
