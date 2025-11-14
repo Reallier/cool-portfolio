@@ -1,6 +1,7 @@
 'use client';
 
 import { useState } from 'react';
+import { skillIconMap } from '@/lib/skill-icons';
 
 interface Skill {
   name: string;
@@ -54,13 +55,17 @@ export default function SkillMarquee({ skills, speed = 30 }: SkillMarqueeProps) 
             onMouseLeave={handleMouseLeave}
           >
             <div
-              className={`relative px-4 py-2 bg-white text-gray-700 text-sm font-medium rounded-full border border-gray-200 shadow-sm cursor-pointer transition-all duration-500 hover:shadow-lg hover:scale-110 ${
+              className={`relative px-4 py-2 bg-white text-gray-700 text-sm font-medium rounded-full border border-gray-200 shadow-sm cursor-pointer transition-all duration-500 hover:shadow-lg hover:scale-110 flex items-center space-x-2 ${
                 hoveredSkill === skill.name ? 'transform rotate-12' : ''
               }`}
               style={{
                 transformOrigin: 'center',
               }}
             >
+              {(() => {
+                const IconComponent = skillIconMap[skill.name];
+                return IconComponent ? <IconComponent className="h-4 w-4" /> : null;
+              })()}
               <span className="block">{skill.name}</span>
             </div>
           </div>

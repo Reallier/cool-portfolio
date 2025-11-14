@@ -1,6 +1,7 @@
 'use client';
 
 import { useState, useEffect, useRef } from 'react';
+import { skillIconMap } from '@/lib/skill-icons';
 
 interface SkillCardProps {
   title: string;
@@ -69,20 +70,20 @@ export default function SkillCard({ title, skills, bgColor = 'bg-page-section', 
       <div className="space-y-6">
         <h3 className="text-xl md:text-2xl font-semibold text-text-main">{title}</h3>
         <div className="flex flex-wrap gap-3">
-          {skills.map((skill) => (
-            <div
-              key={skill.name}
-              className="relative group"
-              onMouseEnter={(e) => handleMouseEnter(skill.name, e)}
-              onMouseLeave={handleMouseLeave}
-            >
-              <span
-                className="px-3 py-1.5 rounded-full bg-white/80 text-text-muted text-xs md:text-sm border border-border-subtle/70 hover:border-primary-blue/50 hover:bg-primary-blue/10 hover:text-primary-blue transition-all duration-300 cursor-pointer transform hover:scale-105 shadow-sm"
+          {skills.map((skill) => {
+            const IconComponent = skillIconMap[skill.name];
+            return (
+              <div
+                key={skill.name}
+                className="relative group flex items-center space-x-2 px-3 py-1.5 rounded-full bg-white/80 text-text-muted text-xs md:text-sm border border-border-subtle/70 hover:border-primary-blue/50 hover:bg-primary-blue/10 hover:text-primary-blue transition-all duration-300 cursor-pointer transform hover:scale-105 shadow-sm"
+                onMouseEnter={(e) => handleMouseEnter(skill.name, e)}
+                onMouseLeave={handleMouseLeave}
               >
-                {skill.name}
-              </span>
-            </div>
-          ))}
+                {IconComponent && <IconComponent className="h-4 w-4" />}
+                <span>{skill.name}</span>
+              </div>
+            );
+          })}
         </div>
       </div>
 
