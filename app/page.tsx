@@ -7,29 +7,128 @@ import Navigation from "@/components/Navigation";
 import ExperienceCard from "@/components/ExperienceCard";
 import MagneticButton from "@/components/ui/MagneticButton";
 import SkillMarquee from "@/components/ui/SkillMarquee";
+import SkillCard from "@/components/ui/SkillCard";
 import ProjectMarquee from "@/components/ui/ProjectMarquee";
+import HeroAnimation from "./HeroAnimation";
 import { PROJECTS, getGitHubProjects } from "@/lib/projects";
 import { getLatestPosts } from "@/lib/blog";
 
 const ThreeHero = dynamic(() => import("./ThreeHero"), { ssr: false });
 
-const AvatarWithFloat = dynamic(() => import("./AvatarWithFloat"), { ssr: false });
+export const INTRO_SECTIONS = [
+  {
+    text: "拥有大型企业（联想）和海外公司（Garena新加坡）工作经验的资深测试开发工程师。",
+  },
+  {
+    text: "精通Python全栈开发、DevOps实践和自动化测试，擅长企业级项目架构设计、性能优化和高可用系统构建。",
+  },
+  {
+    text: "专注于AI智能体开发，熟练掌握大语言模型集成、RAG架构设计、提示工程优化和多模态AI应用。具备丰富的AI应用落地经验，致力于将AI技术与传统软件开发相结合，构建智能化解决方案。",
+  }
+];
 
 // 所有技能列表
-const ALL_SKILLS = [
-  "Python", "Django", "Flask", "FastAPI", "Asyncio", "Golang", "Java", "Node.js",
-  "MySQL", "PostgreSQL", "MongoDB", "Redis", "RabbitMQ", "Kafka",
-  "Docker", "Kubernetes", "Jenkins", "GitLab CI", "Nginx", "Terraform",
-  "React", "Vue.js", "TypeScript", "Three.js", "Echarts", "WebSocket",
-  "Pytest", "Selenium", "OWASP ZAP", "Allure", "Jira", "Postman",
-  "Linux", "Ansible", "Prometheus", "Grafana", "Packer", "Flatpak"
+const ALL_SKILLS_DATA = [
+  { name: "Python", description: "高级编程语言，擅长后端开发、数据处理和自动化脚本" },
+  { name: "Django", description: "Python全栈Web框架，提供ORM、模板引擎和管理后台" },
+  { name: "Flask", description: "轻量级Python Web框架，灵活且易于扩展" },
+  { name: "FastAPI", description: "现代Python异步Web框架，基于类型提示的高性能API" },
+  { name: "Asyncio", description: "Python异步编程库，支持协程和并发处理" },
+  { name: "Golang", description: "高效的系统级编程语言，适合并发和高性能应用" },
+  { name: "Java", description: "企业级编程语言，广泛用于后端服务和Android开发" },
+  { name: "Node.js", description: "基于V8引擎的JavaScript运行时，支持服务端开发" },
+  { name: "MySQL", description: "关系型数据库管理系统，适合结构化数据存储" },
+  { name: "PostgreSQL", description: "高级开源关系型数据库，支持复杂查询和扩展" },
+  { name: "MongoDB", description: "NoSQL文档数据库，适合非结构化数据存储" },
+  { name: "Redis", description: "高性能键值存储数据库，支持缓存和消息队列" },
+  { name: "RabbitMQ", description: "消息队列系统，支持异步通信和负载均衡" },
+  { name: "Kafka", description: "分布式流处理平台，适合大数据实时处理" },
+  { name: "Docker", description: "容器化平台，实现应用打包和部署标准化" },
+  { name: "Kubernetes", description: "容器编排平台，管理大规模容器化应用" },
+  { name: "Jenkins", description: "持续集成/持续部署工具，自动化构建和测试" },
+  { name: "GitLab CI", description: "DevOps平台，提供CI/CD、代码审查和项目管理" },
+  { name: "Nginx", description: "高性能Web服务器和反向代理服务器" },
+  { name: "Terraform", description: "基础设施即代码工具，支持多云资源管理" },
+  { name: "React", description: "前端UI库，支持组件化开发和状态管理" },
+  { name: "Vue.js", description: "渐进式前端框架，易学易用，性能优秀" },
+  { name: "TypeScript", description: "JavaScript的超集，提供类型安全和更好的开发体验" },
+  { name: "Three.js", description: "3D JavaScript库，用于创建WebGL应用和可视化" },
+  { name: "Echarts", description: "百度开源的可视化图表库，支持多种图表类型" },
+  { name: "WebSocket", description: "全双工通信协议，支持实时数据传输" },
+  { name: "Pytest", description: "Python测试框架，提供丰富的断言和插件支持" },
+  { name: "Selenium", description: "Web自动化测试工具，支持跨浏览器测试" },
+  { name: "OWASP ZAP", description: "Web应用安全扫描器，检测安全漏洞" },
+  { name: "Allure", description: "测试报告框架，提供美观详细的测试结果展示" },
+  { name: "Jira", description: "项目管理工具，支持敏捷开发和问题跟踪" },
+  { name: "Postman", description: "API测试和开发工具，支持接口调试和文档生成" },
+  { name: "Linux", description: "开源操作系统，服务器部署的首选平台" },
+  { name: "Ansible", description: "自动化配置管理工具，无代理架构" },
+  { name: "Prometheus", description: "监控和告警系统，适合云原生环境" },
+  { name: "Grafana", description: "可视化仪表板，支持多种数据源" },
+  { name: "Packer", description: "镜像构建工具，创建一致的机器镜像" },
+  { name: "Flatpak", description: "Linux应用沙箱化技术，提供隔离运行环境" }
+];
+
+// 向后兼容的技能名称列表
+const ALL_SKILLS = ALL_SKILLS_DATA.map(skill => skill.name);
+
+// 技能分组数据
+const SKILL_CATEGORIES = [
+  {
+    title: "后端开发",
+    skills: ALL_SKILLS_DATA.filter(skill =>
+      ["Python", "Django", "Flask", "FastAPI", "Asyncio", "Golang", "Java", "Node.js"].includes(skill.name)
+    ),
+    bgColor: "bg-blue-50/80",
+    index: 0
+  },
+  {
+    title: "数据库 & 存储",
+    skills: ALL_SKILLS_DATA.filter(skill =>
+      ["MySQL", "PostgreSQL", "MongoDB", "Redis", "RabbitMQ", "Kafka"].includes(skill.name)
+    ),
+    bgColor: "bg-green-50/80",
+    index: 1
+  },
+  {
+    title: "DevOps & 云原生",
+    skills: ALL_SKILLS_DATA.filter(skill =>
+      ["Docker", "Kubernetes", "Jenkins", "GitLab CI", "Nginx", "Terraform"].includes(skill.name)
+    ),
+    bgColor: "bg-purple-50/80",
+    index: 2
+  },
+  {
+    title: "前端 & 可视化",
+    skills: ALL_SKILLS_DATA.filter(skill =>
+      ["React", "Vue.js", "TypeScript", "Three.js", "Echarts", "WebSocket"].includes(skill.name)
+    ),
+    bgColor: "bg-orange-50/80",
+    index: 3
+  },
+  {
+    title: "测试 & 质量",
+    skills: ALL_SKILLS_DATA.filter(skill =>
+      ["Pytest", "Selenium", "OWASP ZAP", "Allure", "Jira", "Postman"].includes(skill.name)
+    ),
+    bgColor: "bg-pink-50/80",
+    index: 4
+  },
+  {
+    title: "其他技术",
+    skills: ALL_SKILLS_DATA.filter(skill =>
+      ["Linux", "Ansible", "Prometheus", "Grafana", "Packer", "Flatpak"].includes(skill.name)
+    ),
+    bgColor: "bg-indigo-50/80",
+    index: 5
+  }
 ];
 
 export default async function Page() {
   const [staticProjects, githubProjects, latestPosts] = await Promise.all([
     Promise.resolve(PROJECTS),
     getGitHubProjects(),
-    Promise.resolve(getLatestPosts(3))
+    getLatestPosts(3),
   ]);
 
   // 合并项目并按更新时间排序，GitHub项目优先显示最新的
@@ -52,67 +151,7 @@ export default async function Page() {
         <div className="absolute inset-0 bg-gradient-to-br from-page-section via-page to-page pointer-events-none" />
         <div className="absolute -right-40 -top-40 h-80 w-80 rounded-full bg-gradient-to-br from-primary-blue/30 to-primary-cyan/20 blur-3xl opacity-70 pointer-events-none" />
         <div className="relative z-10 w-full px-8 md:px-12 lg:px-16">
-          <div className="flex items-center justify-between gap-16 md:gap-24 lg:gap-32">
-            <div className="flex-1 min-w-0 space-y-6 text-right">
-              <p className="text-sm font-semibold tracking-[0.4em] text-text-soft uppercase">
-                Hello, I'm
-              </p>
-              <h1 className="text-5xl sm:text-6xl md:text-7xl lg:text-8xl font-bold tracking-tight">
-                <span className="bg-gradient-to-r from-primary-blue to-primary-cyan bg-clip-text text-transparent">
-                  Reallier Wei
-                </span>
-              </h1>
-              <p className="text-xl md:text-2xl text-text-muted leading-snug">
-                Senior Testing Developer & Full-Stack Engineer
-              </p>
-              <p className="text-lg md:text-xl text-text-soft leading-snug">
-                Python专家 · DevOps实践者 · 技术创新者
-              </p>
-              <div className="flex flex-wrap gap-3 justify-end pt-2">
-                {["Python 全栈", "云原生 & Kubernetes", "自动化测试开发", "DevOps & CI/CD"].map((tag) => (
-                  <span
-                    key={tag}
-                    className="px-4 py-2 text-sm font-medium rounded-full bg-page-section text-text-muted border border-border-subtle/60"
-                  >
-                    {tag}
-                  </span>
-                ))}
-              </div>
-            </div>
-
-            <div className="flex-shrink-0">
-              <AvatarWithFloat />
-            </div>
-
-            <div className="flex-1 min-w-0 space-y-6 text-left">
-              <div className="space-y-4">
-                <h2 className="text-xl md:text-2xl font-semibold text-text-main">
-                  关于我
-                </h2>
-                <p className="text-base md:text-lg text-text-muted leading-snug">
-                  拥有大型企业（联想）和海外公司（Garena新加坡）工作经验的资深测试开发工程师。
-                </p>
-                <p className="text-base md:text-lg text-text-muted leading-snug">
-                  精通Python全栈开发、DevOps实践和自动化测试，擅长企业级项目架构设计、性能优化和高可用系统构建。
-                </p>
-              </div>
-              <div className="space-y-3">
-                <h3 className="text-lg md:text-xl font-semibold text-text-main">
-                  技术专长
-                </h3>
-                <div className="flex flex-wrap gap-2">
-                  {["测试自动化", "CI/CD", "云原生", "Python", "Kubernetes", "Docker"].map((skill) => (
-                    <span
-                      key={skill}
-                      className="px-3 py-1.5 text-xs font-medium rounded-full bg-primary-blue/10 text-primary-blue border border-primary-blue/20"
-                    >
-                      {skill}
-                    </span>
-                  ))}
-                </div>
-              </div>
-            </div>
-          </div>
+          <HeroAnimation />
         </div>
       </section>
 
@@ -136,86 +175,17 @@ export default async function Page() {
 
       <Section id="skills" title="技能专长">
         <div className="space-y-8">
-          <SkillMarquee skills={ALL_SKILLS} speed={30} />
+          <SkillMarquee skills={ALL_SKILLS_DATA} speed={30} />
           <div className="grid gap-8 md:grid-cols-2 lg:grid-cols-3">
-            <div className="space-y-6">
-              <h3 className="text-xl md:text-2xl font-semibold text-text-main">后端开发</h3>
-              <div className="flex flex-wrap gap-3">
-                {["Python", "Django", "Flask", "FastAPI", "Asyncio", "Golang", "Java", "Node.js"].map((skill) => (
-                  <span
-                    key={skill}
-                    className="px-3 py-1.5 rounded-full bg-page-section text-text-muted text-xs md:text-sm border border-border-subtle/70 hover:border-border-strong hover:bg-surface/80 transition-colors cursor-default"
-                  >
-                    {skill}
-                  </span>
-                ))}
-              </div>
-            </div>
-            <div className="space-y-6">
-              <h3 className="text-xl md:text-2xl font-semibold text-text-main">数据库 & 存储</h3>
-              <div className="flex flex-wrap gap-3">
-                {["MySQL", "PostgreSQL", "MongoDB", "Redis", "RabbitMQ", "Kafka"].map((skill) => (
-                  <span
-                    key={skill}
-                    className="px-3 py-1.5 rounded-full bg-page-section text-text-muted text-xs md:text-sm border border-border-subtle/70 hover:border-border-strong hover:bg-surface/80 transition-colors cursor-default"
-                  >
-                    {skill}
-                  </span>
-                ))}
-              </div>
-            </div>
-            <div className="space-y-6">
-              <h3 className="text-xl md:text-2xl font-semibold text-text-main">DevOps & 云原生</h3>
-              <div className="flex flex-wrap gap-3">
-                {["Docker", "Kubernetes", "Jenkins", "GitLab CI", "Nginx", "Terraform"].map((skill) => (
-                  <span
-                    key={skill}
-                    className="px-3 py-1.5 rounded-full bg-page-section text-text-muted text-xs md:text-sm border border-border-subtle/70 hover:border-border-strong hover:bg-surface/80 transition-colors cursor-default"
-                  >
-                    {skill}
-                  </span>
-                ))}
-              </div>
-            </div>
-            <div className="space-y-6">
-              <h3 className="text-xl md:text-2xl font-semibold text-text-main">前端 & 可视化</h3>
-              <div className="flex flex-wrap gap-3">
-                {["React", "Vue.js", "TypeScript", "Three.js", "Echarts", "WebSocket"].map((skill) => (
-                  <span
-                    key={skill}
-                    className="px-3 py-1.5 rounded-full bg-page-section text-text-muted text-xs md:text-sm border border-border-subtle/70 hover:border-border-strong hover:bg-surface/80 transition-colors cursor-default"
-                  >
-                    {skill}
-                  </span>
-                ))}
-              </div>
-            </div>
-            <div className="space-y-6">
-              <h3 className="text-xl md:text-2xl font-semibold text-text-main">测试 & 质量</h3>
-              <div className="flex flex-wrap gap-3">
-                {["Pytest", "Selenium", "OWASP ZAP", "Allure", "Jira", "Postman"].map((skill) => (
-                  <span
-                    key={skill}
-                    className="px-3 py-1.5 rounded-full bg-page-section text-text-muted text-xs md:text-sm border border-border-subtle/70 hover:border-border-strong hover:bg-surface/80 transition-colors cursor-default"
-                  >
-                    {skill}
-                  </span>
-                ))}
-              </div>
-            </div>
-            <div className="space-y-6">
-              <h3 className="text-xl md:text-2xl font-semibold text-text-main">其他技术</h3>
-              <div className="flex flex-wrap gap-3">
-                {["Linux", "Ansible", "Prometheus", "Grafana", "Packer", "Flatpak"].map((skill) => (
-                  <span
-                    key={skill}
-                    className="px-3 py-1.5 rounded-full bg-page-section text-text-muted text-xs md:text-sm border border-border-subtle/70 hover:border-border-strong hover:bg-surface/80 transition-colors cursor-default"
-                  >
-                    {skill}
-                  </span>
-                ))}
-              </div>
-            </div>
+            {SKILL_CATEGORIES.map((category) => (
+              <SkillCard
+                key={category.title}
+                title={category.title}
+                skills={category.skills}
+                bgColor={category.bgColor}
+                index={category.index}
+              />
+            ))}
           </div>
         </div>
       </Section>

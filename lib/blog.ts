@@ -90,7 +90,13 @@ export async function getPostData(slug: string): Promise<BlogPost> {
   };
 }
 
+// This function should only be called on the server
 export function getLatestPosts(limit: number = 3): BlogPost[] {
-  const allPosts = getSortedPostsData();
-  return allPosts.slice(0, limit);
+  try {
+    const allPosts = getSortedPostsData();
+    return allPosts.slice(0, limit);
+  } catch (error) {
+    console.error("Failed to get latest posts, likely running on client. This function is server-only.", error);
+    return [];
+  }
 }

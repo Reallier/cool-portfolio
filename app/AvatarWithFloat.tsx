@@ -46,10 +46,30 @@ export default function AvatarWithFloat() {
         y: springY,
         transformStyle: "preserve-3d",
       }}
+      initial={{
+        opacity: 0,
+        rotateY: -90,
+        scale: 0.5
+      }}
+      animate={{
+        opacity: 1,
+        rotateY: 0,
+        scale: 1
+      }}
+      transition={{
+        duration: 1,
+        delay: 0.3,
+        ease: [0.43, 0.13, 0.23, 0.96]
+      }}
       onMouseMove={handleMouseMove}
       onMouseLeave={handleMouseLeave}
     >
-      <div className="absolute inset-0 rounded-full bg-gradient-to-tr from-primary-blue to-primary-cyan opacity-60 blur-2xl" />
+      <motion.div
+        className="absolute inset-0 rounded-full bg-gradient-to-tr from-primary-blue to-primary-cyan opacity-60 blur-2xl"
+        initial={{ scale: 0 }}
+        animate={{ scale: 1 }}
+        transition={{ duration: 0.8, delay: 0.5 }}
+      />
       <div className="relative h-full w-full rounded-full overflow-hidden border-6 border-white/70 shadow-[0_0_80px_rgba(37,99,235,0.85)]">
         <Image
           src="/avatar.png"
