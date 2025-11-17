@@ -6,11 +6,6 @@
 html, body { height: 100%; }
 .prose :where(a):not(:where([class~="not-prose"] *)) { text-decoration: underline; }
 
-/* 强制隐藏所有系统光标，确保自定义光标正常显示 */
-*, *::before, *::after {
-  cursor: none !important;
-}
-
 /* 自定义滚动条样式 */
 .custom-scrollbar {
   scrollbar-width: thin;

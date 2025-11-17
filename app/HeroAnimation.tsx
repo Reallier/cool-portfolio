@@ -50,31 +50,31 @@ export default function HeroAnimation() {
   }, [leftControls, avatarControls, rightControls]);
 
   return (
-    <div className="flex items-center justify-between gap-16 md:gap-24 lg:gap-32">
-      <motion.div 
-        className="flex-1 min-w-0 space-y-6 text-right"
+    <div className="flex flex-col lg:flex-row items-center justify-between gap-8 sm:gap-12 lg:gap-16 xl:gap-20 px-4 sm:px-0">
+      <motion.div
+        className="flex-1 min-w-0 space-y-6 sm:space-y-8 text-center lg:text-right order-2 lg:order-1"
         animate={leftControls}
-        initial={{ opacity: 0, x: "100%" }}
+        initial={{ opacity: 0, x: 0, y: 20 }}
       >
-        <p className="text-sm font-semibold tracking-[0.4em] text-text-soft uppercase">
+        <p className="text-xs sm:text-sm font-semibold tracking-[0.4em] text-text-soft uppercase">
           Hello, I'm
         </p>
-        <h1 className="text-5xl sm:text-6xl md:text-7xl lg:text-8xl font-bold tracking-tight">
+        <h1 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl xl:text-5xl font-bold tracking-tight">
           <span className="bg-gradient-to-r from-primary-blue to-primary-cyan bg-clip-text text-transparent">
             Reallier Wei
           </span>
         </h1>
-        <p className="text-xl md:text-2xl text-text-muted leading-snug">
+        <p className="text-sm sm:text-base md:text-lg lg:text-xl xl:text-xl text-text-muted leading-tight">
           Senior Testing Developer & Full-Stack Engineer
         </p>
-        <p className="text-lg md:text-xl text-text-soft leading-snug">
+        <p className="text-xs sm:text-sm md:text-base lg:text-lg xl:text-lg text-text-soft leading-tight">
           Python专家 · DevOps实践者 · 技术创新者
         </p>
-        <div className="flex flex-wrap gap-3 justify-end pt-2">
+        <div className="flex flex-wrap gap-2 sm:gap-3 justify-center lg:justify-end pt-4">
           {["Python 全栈", "云原生 & Kubernetes", "自动化测试开发", "DevOps & CI/CD"].map((tag) => (
             <span
               key={tag}
-              className="px-4 py-2 text-sm font-medium rounded-full bg-page-section text-text-muted border border-border-subtle/60"
+              className="px-2 sm:px-3 py-1.5 sm:py-2 text-xs font-medium rounded-full bg-page-section text-text-muted border border-border-subtle/60"
             >
               {tag}
             </span>
@@ -82,11 +82,11 @@ export default function HeroAnimation() {
         </div>
       </motion.div>
 
-      <motion.div className="flex-shrink-0" animate={avatarControls}>
+      <motion.div className="flex-shrink-0 order-1 lg:order-2" animate={avatarControls}>
         <AvatarWithFloat />
       </motion.div>
 
-      <div className="flex-1 min-w-0 space-y-6 text-left">
+      <div className="flex-1 min-w-0 space-y-6 sm:space-y-8 text-center lg:text-left order-3">
         <motion.div animate={rightControls} initial={{ opacity: 0, y: 20 }}>
           <AnimatedIntro sections={INTRO_SECTIONS} baseDelay={0} />
         </motion.div>

@@ -40,7 +40,7 @@ export default function AvatarWithFloat() {
 
   return (
     <motion.div
-      className="relative h-80 w-80 sm:h-96 sm:w-96 cursor-pointer"
+      className="relative h-32 w-32 sm:h-40 sm:w-40 md:h-48 md:w-48 lg:h-64 lg:w-64 xl:h-64 xl:w-64 cursor-pointer"
       style={{
         x: springX,
         y: springY,

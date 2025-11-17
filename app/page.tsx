@@ -146,11 +146,11 @@ export default async function Page() {
       <Navigation />
       <section
         id="top"
-        className="relative flex items-center min-h-[90vh] pt-24 pb-16 overflow-hidden"
+        className="relative flex items-center min-h-[70vh] pt-20 sm:pt-24 pb-12 sm:pb-16 overflow-hidden"
       >
         <div className="absolute inset-0 bg-gradient-to-br from-page-section via-page to-page pointer-events-none" />
         <div className="absolute -right-40 -top-40 h-80 w-80 rounded-full bg-gradient-to-br from-primary-blue/30 to-primary-cyan/20 blur-3xl opacity-70 pointer-events-none" />
-        <div className="relative z-10 w-full px-8 md:px-12 lg:px-16">
+        <div className="relative z-10 w-full px-4 sm:px-6 md:px-8 lg:px-12 xl:px-16">
           <HeroAnimation />
         </div>
       </section>
@@ -164,7 +164,7 @@ export default async function Page() {
             <div className="flex justify-center">
               <Link
                 href="/projects"
-                className="inline-flex items-center justify-center px-6 py-3 text-sm font-semibold rounded-full border border-border-subtle bg-surface/80 text-text-muted hover:border-border-strong hover:bg-page-section/70 transition-colors"
+                className="inline-flex items-center justify-center px-4 sm:px-6 py-2.5 sm:py-3 text-xs sm:text-sm font-semibold rounded-full border border-border-subtle bg-surface/80 text-text-muted hover:border-border-strong hover:bg-page-section/70 transition-colors"
               >
                 查看更多项目
               </Link>
@@ -240,55 +240,55 @@ export default async function Page() {
           <div className="space-y-4">
             <h3 className="text-2xl font-semibold text-text-main">技术认证</h3>
             <ul className="space-y-3 text-text-muted">
-              <li className="flex items-center gap-3">
-                <div className="w-1.5 h-1.5 bg-primary-blue rounded-full"></div>
-                <span>AWS Certified Solutions Architect</span>
+              <li className="flex items-center gap-2 sm:gap-3">
+                <div className="w-1.5 h-1.5 bg-primary-blue rounded-full flex-shrink-0"></div>
+                <span className="text-sm sm:text-base">AWS Certified Solutions Architect</span>
               </li>
-              <li className="flex items-center gap-3">
-                <div className="w-1.5 h-1.5 bg-primary-blue rounded-full"></div>
-                <span>CKA (Certified Kubernetes Administrator)</span>
+              <li className="flex items-center gap-2 sm:gap-3">
+                <div className="w-1.5 h-1.5 bg-primary-blue rounded-full flex-shrink-0"></div>
+                <span className="text-sm sm:text-base">CKA (Certified Kubernetes Administrator)</span>
               </li>
-              <li className="flex items-center gap-3">
-                <div className="w-1.5 h-1.5 bg-primary-blue rounded-full"></div>
-                <span>Docker Certified Associate</span>
+              <li className="flex items-center gap-2 sm:gap-3">
+                <div className="w-1.5 h-1.5 bg-primary-blue rounded-full flex-shrink-0"></div>
+                <span className="text-sm sm:text-base">Docker Certified Associate</span>
               </li>
-              <li className="flex items-center gap-3">
-                <div className="w-1.5 h-1.5 bg-primary-blue rounded-full"></div>
-                <span>Python Professional Certification</span>
+              <li className="flex items-center gap-2 sm:gap-3">
+                <div className="w-1.5 h-1.5 bg-primary-blue rounded-full flex-shrink-0"></div>
+                <span className="text-sm sm:text-base">Python Professional Certification</span>
               </li>
             </ul>
           </div>
           <div className="space-y-4">
             <h3 className="text-2xl font-semibold text-text-main">开源贡献</h3>
             <ul className="space-y-3 text-text-muted">
-              <li className="flex items-center gap-3">
-                <div className="w-1.5 h-1.5 bg-primary-blue rounded-full"></div>
-                <span>Kubernetes社区贡献者</span>
+              <li className="flex items-center gap-2 sm:gap-3">
+                <div className="w-1.5 h-1.5 bg-primary-blue rounded-full flex-shrink-0"></div>
+                <span className="text-sm sm:text-base">Kubernetes社区贡献者</span>
               </li>
-              <li className="flex items-center gap-3">
-                <div className="w-1.5 h-1.5 bg-primary-blue rounded-full"></div>
-                <span>开源测试框架维护者</span>
+              <li className="flex items-center gap-2 sm:gap-3">
+                <div className="w-1.5 h-1.5 bg-primary-blue rounded-full flex-shrink-0"></div>
+                <span className="text-sm sm:text-base">开源测试框架维护者</span>
               </li>
-              <li className="flex items-center gap-3">
-                <div className="w-1.5 h-1.5 bg-primary-blue rounded-full"></div>
-                <span>技术博客作者</span>
+              <li className="flex items-center gap-2 sm:gap-3">
+                <div className="w-1.5 h-1.5 bg-primary-blue rounded-full flex-shrink-0"></div>
+                <span className="text-sm sm:text-base">技术博客作者</span>
               </li>
             </ul>
           </div>
           <div className="space-y-4">
             <h3 className="text-2xl font-semibold text-text-main">社区活动</h3>
             <ul className="space-y-3 text-text-muted">
-              <li className="flex items-center gap-3">
-                <div className="w-1.5 h-1.5 bg-primary-blue rounded-full"></div>
-                <span>PyCon China演讲者</span>
+              <li className="flex items-center gap-2 sm:gap-3">
+                <div className="w-1.5 h-1.5 bg-primary-blue rounded-full flex-shrink-0"></div>
+                <span className="text-sm sm:text-base">PyCon China演讲者</span>
               </li>
-              <li className="flex items-center gap-3">
-                <div className="w-1.5 h-1.5 bg-primary-blue rounded-full"></div>
-                <span>KubeCon参会者</span>
+              <li className="flex items-center gap-2 sm:gap-3">
+                <div className="w-1.5 h-1.5 bg-primary-blue rounded-full flex-shrink-0"></div>
+                <span className="text-sm sm:text-base">KubeCon参会者</span>
               </li>
-              <li className="flex items-center gap-3">
-                <div className="w-1.5 h-1.5 bg-primary-blue rounded-full"></div>
-                <span>技术社区导师</span>
+              <li className="flex items-center gap-2 sm:gap-3">
+                <div className="w-1.5 h-1.5 bg-primary-blue rounded-full flex-shrink-0"></div>
+                <span className="text-sm sm:text-base">技术社区导师</span>
               </li>
             </ul>
           </div>
@@ -297,34 +297,34 @@ export default async function Page() {
 
       <Section id="services" title="技术服务">
         <div className="grid gap-8 md:grid-cols-2 lg:grid-cols-3">
-          <div className="space-y-4 p-8 rounded-2xl border border-border-subtle bg-surface/80 shadow-sm transition-all duration-300 hover:border-border-strong hover:shadow-lg hover:shadow-primary-blue/10">
-            <h3 className="text-2xl font-semibold text-text-main">测试开发咨询</h3>
-            <p className="text-text-muted leading-relaxed">
+          <div className="space-y-4 p-6 sm:p-8 rounded-2xl border border-border-subtle bg-surface/80 shadow-sm transition-all duration-300 hover:border-border-strong hover:shadow-lg hover:shadow-primary-blue/10">
+            <h3 className="text-xl sm:text-2xl font-semibold text-text-main">测试开发咨询</h3>
+            <p className="text-text-muted leading-relaxed text-sm sm:text-base">
               提供自动化测试框架设计、性能测试策略、CI/CD流程优化等专业咨询服务。
             </p>
-            <ul className="text-text-soft space-y-1 text-sm">
+            <ul className="text-text-soft space-y-1 text-xs sm:text-sm">
               <li>• 测试策略规划</li>
               <li>• 自动化框架搭建</li>
               <li>• 性能优化指导</li>
             </ul>
           </div>
-          <div className="space-y-4 p-8 rounded-2xl border border-border-subtle bg-surface/80 shadow-sm transition-all duration-300 hover:border-border-strong hover:shadow-lg hover:shadow-primary-blue/10">
-            <h3 className="text-2xl font-semibold text-text-main">DevOps实施</h3>
-            <p className="text-text-muted leading-relaxed">
+          <div className="space-y-4 p-6 sm:p-8 rounded-2xl border border-border-subtle bg-surface/80 shadow-sm transition-all duration-300 hover:border-border-strong hover:shadow-lg hover:shadow-primary-blue/10">
+            <h3 className="text-xl sm:text-2xl font-semibold text-text-main">DevOps实施</h3>
+            <p className="text-text-muted leading-relaxed text-sm sm:text-base">
               容器化部署、Kubernetes集群管理、监控告警系统搭建等DevOps全栈服务。
             </p>
-            <ul className="text-text-soft space-y-1 text-sm">
+            <ul className="text-text-soft space-y-1 text-xs sm:text-sm">
               <li>• 容器化迁移</li>
               <li>• K8s集群部署</li>
               <li>• 监控系统搭建</li>
             </ul>
           </div>
-          <div className="space-y-4 p-8 rounded-2xl border border-border-subtle bg-surface/80 shadow-sm transition-all duration-300 hover:border-border-strong hover:shadow-lg hover:shadow-primary-blue/10">
-            <h3 className="text-2xl font-semibold text-text-main">技术培训</h3>
-            <p className="text-text-muted leading-relaxed">
+          <div className="space-y-4 p-6 sm:p-8 rounded-2xl border border-border-subtle bg-surface/80 shadow-sm transition-all duration-300 hover:border-border-strong hover:shadow-lg hover:shadow-primary-blue/10">
+            <h3 className="text-xl sm:text-2xl font-semibold text-text-main">技术培训</h3>
+            <p className="text-text-muted leading-relaxed text-sm sm:text-base">
               Python高级编程、测试开发最佳实践、DevOps工程实践等专业培训课程。
             </p>
-            <ul className="text-text-soft space-y-1 text-sm">
+            <ul className="text-text-soft space-y-1 text-xs sm:text-sm">
               <li>• 企业内训</li>
               <li>• 技术workshop</li>
               <li>• 代码审查指导</li>
@@ -338,24 +338,24 @@ export default async function Page() {
           {latestPosts.map((post) => (
             <article
               key={post.slug}
-              className="space-y-4 p-6 rounded-2xl border border-border-subtle bg-surface/80 shadow-sm transition-all duration-300 hover:border-border-strong hover:shadow-lg hover:shadow-primary-blue/10"
+              className="space-y-4 p-4 sm:p-6 rounded-2xl border border-border-subtle bg-surface/80 shadow-sm transition-all duration-300 hover:border-border-strong hover:shadow-lg hover:shadow-primary-blue/10"
             >
               <div className="space-y-2">
                 <Link href={`/blog/${post.slug}`} className="block">
-                  <h3 className="text-xl font-semibold text-text-main hover:text-primary-blue transition-colors">
+                  <h3 className="text-lg sm:text-xl font-semibold text-text-main hover:text-primary-blue transition-colors">
                     {post.title}
                   </h3>
                 </Link>
-                <p className="text-text-soft text-sm">{post.date}</p>
+                <p className="text-text-soft text-xs sm:text-sm">{post.date}</p>
               </div>
-              <p className="text-text-muted leading-relaxed">
+              <p className="text-text-muted leading-relaxed text-sm sm:text-base">
                 {post.description}
               </p>
               <div className="flex flex-wrap gap-2">
                 {post.tags.map((tag) => (
                   <span
                     key={tag}
-                    className="px-3 py-1 text-xs md:text-sm rounded-full bg-page-section text-text-muted border border-border-subtle/60"
+                    className="px-2 sm:px-3 py-1 text-xs rounded-full bg-page-section text-text-muted border border-border-subtle/60"
                   >
                     {tag}
                   </span>
@@ -367,7 +367,7 @@ export default async function Page() {
         <div className="mt-8 text-center">
           <Link
             href="/blog"
-            className="inline-flex items-center justify-center px-6 py-3 text-sm font-semibold rounded-full border border-border-subtle bg-surface/80 text-text-muted hover:border-border-strong hover:bg-page-section/70 transition-colors"
+            className="inline-flex items-center justify-center px-4 sm:px-6 py-2.5 sm:py-3 text-xs sm:text-sm font-semibold rounded-full border border-border-subtle bg-surface/80 text-text-muted hover:border-border-strong hover:bg-page-section/70 transition-colors"
           >
             查看全部文章
           </Link>
@@ -376,23 +376,23 @@ export default async function Page() {
 
       <Section title="关于">
         <div className="max-w-4xl space-y-6">
-          <p className="text-text-muted text-lg leading-relaxed">
+          <p className="text-text-muted text-base sm:text-lg leading-relaxed">
             拥有大型企业（联想）和海外公司（Garena新加坡）工作经验的资深测试开发工程师。精通Python全栈开发、DevOps实践和自动化测试。
             擅长企业级项目架构设计、性能优化和高可用系统构建。具备丰富的CI/CD、容器化部署和云原生技术经验。
           </p>
-          <p className="text-text-muted text-lg leading-relaxed">
+          <p className="text-text-muted text-base sm:text-lg leading-relaxed">
             目前专注于游戏行业测试开发，主导交易模块自动化平台建设和数据驱动测试框架。期待在前端可视化、后端架构优化和DevOps领域继续深耕。
           </p>
-          <div className="pt-8 border-t border-border-subtle">
-            <div className="flex flex-col gap-3">
+          <div className="pt-6 sm:pt-8 border-t border-border-subtle">
+            <div className="flex flex-col gap-2 sm:gap-3">
               <a
-                className="text-text-muted hover:text-primary-blue transition-colors text-lg"
+                className="text-text-muted hover:text-primary-blue transition-colors text-base sm:text-lg"
                 href="mailto:icey123580@gmail.com"
               >
                 icey123580@gmail.com
               </a>
               <a
-                className="text-text-muted hover:text-primary-blue transition-colors text-lg"
+                className="text-text-muted hover:text-primary-blue transition-colors text-base sm:text-lg"
                 href="https://github.com/Reallier"
                 target="_blank"
                 rel="noopener noreferrer"
@@ -400,28 +400,14 @@ export default async function Page() {
                 github.com/Reallier
               </a>
               <a
-                className="text-text-muted hover:text-primary-blue transition-colors text-lg"
+                className="text-text-muted hover:text-primary-blue transition-colors text-base sm:text-lg"
                 href="https://linkedin.com/in/reallier"
                 target="_blank"
                 rel="noopener noreferrer"
               >
                 linkedin.com/in/reallier
               </a>
-              <span className="text-text-soft text-lg">深圳，中国</span>
-            </div>
-            <div className="mt-6 flex flex-wrap gap-4">
-              <a
-                href="/resume.pdf"
-                className="inline-flex items-center justify-center px-6 py-3 text-sm font-semibold rounded-full bg-gradient-to-r from-primary-blue to-primary-cyan text-white shadow-lg shadow-primary-blue/30 hover:shadow-xl hover:shadow-primary-blue/40 transition-all duration-300"
-              >
-                下载简历
-              </a>
-              <a
-                href="#contact"
-                className="inline-flex items-center justify-center px-6 py-3 text-sm font-semibold rounded-full border border-border-subtle bg-surface/80 text-text-muted hover:border-border-strong hover:bg-page-section/70 transition-colors"
-              >
-                联系我
-              </a>
+              <span className="text-text-soft text-base sm:text-lg">深圳，中国</span>
             </div>
           </div>
         </div>
