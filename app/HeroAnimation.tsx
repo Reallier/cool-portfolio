@@ -50,7 +50,7 @@ export default function HeroAnimation() {
   }, [leftControls, avatarControls, rightControls]);
 
   return (
-    <div className="flex flex-col lg:flex-row items-center justify-between gap-8 sm:gap-12 lg:gap-16 xl:gap-20 px-4 sm:px-0">
+    <div className="flex flex-col lg:flex-row items-center justify-between gap-8 sm:gap-12 lg:gap-16 xl:gap-20 px-4 sm:px-0 w-[80%] mx-auto">
       <motion.div
         className="flex-1 min-w-0 space-y-6 sm:space-y-8 text-center lg:text-right order-2 lg:order-1"
         animate={leftControls}

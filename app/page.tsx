@@ -9,6 +9,7 @@ import MagneticButton from "@/components/ui/MagneticButton";
 import SkillMarquee from "@/components/ui/SkillMarquee";
 import SkillCard from "@/components/ui/SkillCard";
 import ProjectMarquee from "@/components/ui/ProjectMarquee";
+
 import HeroAnimation from "./HeroAnimation";
 import { PROJECTS, getGitHubProjects } from "@/lib/projects";
 import { getLatestPosts } from "@/lib/blog";
@@ -146,10 +147,11 @@ export default async function Page() {
       <Navigation />
       <section
         id="top"
-        className="relative flex items-center min-h-[70vh] pt-20 sm:pt-24 pb-12 sm:pb-16 overflow-hidden"
+        className="relative flex items-center min-h-[34vh] pt-10 sm:pt-12 pb-6 sm:pb-8 overflow-hidden"
       >
         <div className="absolute inset-0 bg-gradient-to-br from-page-section via-page to-page pointer-events-none" />
         <div className="absolute -right-40 -top-40 h-80 w-80 rounded-full bg-gradient-to-br from-primary-blue/30 to-primary-cyan/20 blur-3xl opacity-70 pointer-events-none" />
+  
         <div className="relative z-10 w-full px-4 sm:px-6 md:px-8 lg:px-12 xl:px-16">
           <HeroAnimation />
         </div>
